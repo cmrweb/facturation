@@ -6,7 +6,7 @@
 
 
 <div class=" col-10 mx-auto">
-    
+
     <table class="table">
         <thead>
             <tr>
@@ -38,6 +38,61 @@
             </tr>
             {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <th>Total:</th>
+                <th colspan="3"></th>
+                <th colspan="2"></th>
+            </tr>
+        </tfoot>
     </table>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready(function () {
+        $('table').DataTable({
+            "order": [[0, 'desc']],
+         // dom: 'Bfrtip',
+         // buttons: [
+         // {
+         //     extend: 'pdf',
+         //     text: 'Télécharger',
+         //     exportOptions: {
+         //         modifier: {
+         //             page: 'current'
+         //         },
+         //         columns: [ 0, 1, 2, 3,4 ]
+         //     },
+         //     footer:true
+         // }
+         // ],
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(), data;
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\€,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                total = api
+                .column( 4 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+                pageTotal = api
+                    .column(4, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                $(api.column(4).footer()).html(
+                    pageTotal.toFixed(2) + " €"//+" ("+total+" € Total)"
+                );
+            }
+        });
+    });
+</script>
 {% endblock %}

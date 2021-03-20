@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Facture{% endblock %}
+
+{% block body %} 
+    <h1 class="text-center">Facture</h1>
+    <p class="text-center"><small>n°_{{facture.date|date('Ym')}}{{facture.client.abbr}}{{facture.id}}</small></p>
+<div class=" col-10 mx-auto">
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <th></th>
+                <td>Du {{ facture.mois|date('01/m/Y') }} au {{ facture.mois|date('t/m/Y') }}</td>
+            </tr>
+            <tr>
+                <th>Prestation</th>
+                <td>{{ facture.prestation }}</td>
+            </tr>
+            <tr>
+                <th>Quantite</th>
+                <td>{{ facture.quantite }}</td>
+            </tr>
+            <tr>
+                <th>Taux</th>
+                <td>{{facture.taux }}</td>
+            </tr>
+            <tr>
+                <th>TVA non applicable, art. 293 B du CGI</th>
+                <td>{{ (facture.quantite * facture.taux)|round(2, 'common') }} €</td>
+            </tr>
+
+            <tr>
+                <th>Mention</th>
+                <td>{{ facture.mention }}</td>
+            </tr>            
+            <tr>
+                <th>Fait le :</th>
+                <td>{{ facture.date ? facture.date|date('d/m/Y') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <a class="btn btn-light"  href="{{ path('facture_edit', {'id': facture.id}) }}">edit</a>
+    <a class="btn btn-light"  href="{{ path('facture_pdf', {'id': facture.id}) }}">pdf</a>
+    {{ include('facture/_delete_form.html.twig') }}
+</div>
+
+{% endblock %}

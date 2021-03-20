@@ -81,6 +81,9 @@
     "egulias/email-validator": {
         "version": "2.1.25"
     },
+    "fpdf/fpdf": {
+        "version": "1.82.1"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
@@ -137,6 +140,9 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "setasign/fpdf": {
+        "version": "1.8.2"
     },
     "symfony/asset": {
         "version": "v5.2.3"
